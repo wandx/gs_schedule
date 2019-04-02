@@ -2,7 +2,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gs_schedule/app_provider.dart';
 import 'package:gs_schedule/models/account.dart';
-import 'package:gs_schedule/utils/instagram.dart' show makeSchedule;
+import 'package:gs_schedule/utils/instagram.dart';
 import 'package:gs_schedule/widgets/scaffold_wrapper.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -123,7 +123,8 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                   final data = await _appProvider.storePostSchedule(body);
 
                   List<dynamic> mediaIds = (data["schedule_data"]["items"])
-                      .map((d) => d["media"]["path"])
+                      .map((d) =>
+                          d["media"]["path"] + "," + d["media"]["caption"])
                       .toList();
                   List<dynamic> accountIds = (data["schedule_data"]["accounts"])
                       .map((d) => d["username"] + "," + d["password"])
@@ -141,7 +142,7 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                   }
 
                   await makeSchedule(data["request_code"],
-                      decrypted.join("---"), mediaIds.join(","), _date);
+                      decrypted.join("---"), mediaIds.join("---"), _date);
 
                   Navigator.pop(context);
                 },

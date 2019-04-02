@@ -89,6 +89,8 @@ class AppProvider extends Model {
     await storeMedia(body).then((_) {}).catchError((error) {
       throw Exception(error);
     });
+
+    notifyListeners();
   }
 
   Future<Null> fetchMedia() async {
@@ -99,20 +101,20 @@ class AppProvider extends Model {
     }).catchError((error) {
       print(error);
       _media.clear();
-      notifyListeners();
     });
+    notifyListeners();
   }
 
   Future<Null> fetchAccount() async {
     _accounts.clear();
     await getAccount().then((a) {
       _accounts.addAll(a);
-      notifyListeners();
     }).catchError((error) {
       print(error);
       _accounts.clear();
-      notifyListeners();
     });
+
+    notifyListeners();
   }
 
   Future<Null> storeInstagramAccount(Map<String, dynamic> body) async {

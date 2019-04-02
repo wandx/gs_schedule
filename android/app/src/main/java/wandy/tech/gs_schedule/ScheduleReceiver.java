@@ -46,7 +46,7 @@ public class ScheduleReceiver extends BroadcastReceiver {
     private void uploadInstagram(String accounts,String paths) {
         new Thread(() -> {
             String accountList[] = accounts.split("---");
-            String pathList[] = paths.split(",");
+            String pathList[] = paths.split("---");
 
             for(int i=0;i<accountList.length;i++){
                 String singleAccount[] = accountList[i].split(",");
@@ -55,7 +55,8 @@ public class ScheduleReceiver extends BroadcastReceiver {
                     ig.loginIG(singleAccount[0],singleAccount[1]);
 
                     for(int j=0;j<pathList.length;j++){
-                        ig.postPhoto(pathList[j],"Coba");
+                        String singlePath[] = pathList[j].split(",");
+                        ig.postPhoto(singlePath[0],singlePath[1]);
                         Thread.sleep(2000);
                     }
                 }catch (Exception e){

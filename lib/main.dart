@@ -19,6 +19,7 @@ class Entry extends StatelessWidget {
         if (s.connectionState == ConnectionState.done && !s.hasError) {
           _appProvider.fetchLoginStatus().then((bool res) async {
             await _appProvider.fetchMedia();
+          }).then((_) async {
             await _appProvider.fetchAccount();
           }).then((_) {
             runApp(ScopedModel<AppProvider>(
