@@ -88,12 +88,12 @@ class AccountScreen extends StatelessWidget {
                                       ),
                                       FlatButton(
                                         onPressed: () async {
-                                          await appProvider
-                                              .removeInstagramAccount(
-                                                  appProvider
-                                                      .accounts[index].id);
-                                          await appProvider.fetchAccount();
                                           Navigator.pop(context);
+                                          final id =
+                                              appProvider.accounts[index].id;
+                                          await appProvider
+                                              .removeInstagramAccount(id);
+                                          await appProvider.fetchAccount();
                                         },
                                         child: Text("Hapus"),
                                       ),

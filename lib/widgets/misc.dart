@@ -117,36 +117,39 @@ class CustomGridTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         onLongPress: onLongPress,
-        child: Padding(
-          padding: EdgeInsets.all(selected ? 8.0 : 0.0),
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Image(
-                image: _im,
-                fit: BoxFit.cover,
-              ),
-              Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(""),
-                  ),
-                  Container(
-                    height: 40.0,
-                    color: Colors.black.withAlpha(150),
-                    child: Center(
-                      child: Text(
-                        caption,
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+        child: Container(
+          color: Colors.grey,
+          child: Padding(
+            padding: EdgeInsets.all(selected ? 8.0 : 0.0),
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                Image(
+                  image: _im,
+                  fit: BoxFit.cover,
+                ),
+                Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(""),
                     ),
-                  )
-                ],
-              )
-            ],
+                    Container(
+                      height: 40.0,
+                      color: Colors.black.withAlpha(150),
+                      child: Center(
+                        child: Text(
+                          caption,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

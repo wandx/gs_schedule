@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gs_schedule/models/account.dart';
 import 'package:gs_schedule/models/credential.dart';
@@ -125,6 +127,7 @@ class AppProvider extends Model {
 
   Future<Null> removeInstagramAccount(String id) async {
     await removeAccount(id).catchError((error) => print(error));
+    notifyListeners();
   }
 
   Future<Map<String, dynamic>> storePostSchedule(
@@ -134,6 +137,20 @@ class AppProvider extends Model {
     }).catchError((error) {
       throw Exception(error);
     });
+  }
+
+  Future<Null> deleteMediaData(String id) async {
+    await deleteMedia(id).then((String path) {
+      final cek = File(path).existsSync();
+
+      if (cek) {
+        try {
+          File(path).deleteSync();
+        } catch (error) {
+          print(error);
+        }
+      }
+    }).catchError((error) => print(error));
   }
 
   static AppProvider of(BuildContext context) =>

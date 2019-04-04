@@ -39,3 +39,16 @@ Future<Map<String, dynamic>> storeSchedule(Map<String, dynamic> body) async {
     throw Exception(r.body);
   });
 }
+
+Future<String> deleteMedia(String id) async {
+  return await makeAuthRequest(RequestType.DELETE, "/media/$id")
+      .then((Response r) async {
+    if (r.statusCode == 200) {
+      final parsed = json.decode(r.body);
+      final path = parsed["data"]["path"];
+      return path;
+    }
+
+    throw Exception(r.body);
+  });
+}

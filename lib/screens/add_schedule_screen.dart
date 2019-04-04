@@ -132,36 +132,36 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                     "media": widget.mediaIds
                   };
 
-                  final data = await _appProvider.storePostSchedule(body);
+                  await _appProvider.storePostSchedule(body).then((data) async {
+                    List<dynamic> mediaIds = (data["schedule_data"]["items"])
+                        .map((d) =>
+                            d["media"]["path"] + "," + d["media"]["caption"])
+                        .toList();
+                    List<dynamic> accountIds = (data["schedule_data"]
+                            ["accounts"])
+                        .map((d) => d["username"] + "," + d["password"])
+                        .toList();
+                    List<String> decrypted = [];
 
-                  List<dynamic> mediaIds = (data["schedule_data"]["items"])
-                      .map((d) =>
-                          d["media"]["path"] + "," + d["media"]["caption"])
-                      .toList();
-                  List<dynamic> accountIds = (data["schedule_data"]["accounts"])
-                      .map((d) => d["username"] + "," + d["password"])
-                      .toList();
-                  List<String> decrypted = [];
+                    String toDecrypt = accountIds.join("|");
+                    List<String> listToDecrypt = toDecrypt.split("|");
 
-                  String toDecrypt = accountIds.join("|");
-                  List<String> listToDecrypt = toDecrypt.split("|");
+                    for (int i = 0; i < listToDecrypt.length; i++) {
+                      List<String> readyToDecrypt = listToDecrypt[i].split(",");
+                      final x = new Account();
+                      readyToDecrypt[1] = await x.decrypt(readyToDecrypt[1]);
+                      decrypted.add(readyToDecrypt.join(","));
+                    }
 
-                  for (int i = 0; i < listToDecrypt.length; i++) {
-                    List<String> readyToDecrypt = listToDecrypt[i].split(",");
-                    final x = new Account();
-                    readyToDecrypt[1] = await x.decrypt(readyToDecrypt[1]);
-                    decrypted.add(readyToDecrypt.join(","));
-                  }
+                    final requestCode = data["request_code"];
+                    final decryptedAccount = decrypted.join("---");
+                    final mediaList = mediaIds.join("---");
 
-                  final requestCode = data["request_code"];
-                  final decryptedAccount = decrypted.join("---");
-                  final mediaList = mediaIds.join("---");
-
-                  await makeSchedule(
-                          requestCode, decryptedAccount, mediaList, _date)
-                      .then((_) {
-                    Navigator.pop(context);
+                    makeSchedule(
+                        requestCode, decryptedAccount, mediaList, _date);
                   });
+
+                  Navigator.pop(context);
                 },
                 child: Container(
                   color: Colors.grey,

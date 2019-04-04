@@ -47,17 +47,57 @@ class _GalleryScreenState extends State<GalleryScreen> {
           children: <Widget>[
             Visibility(
               visible: _selectionMode,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: FloatingActionButton(
+                  backgroundColor: Colors.red,
+                  mini: true,
+                  onPressed: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Hapus media?"),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Cancel"),
+                              ),
+                              FlatButton(
+                                onPressed: () async {
+                                  _selectedId.forEach((String id) async {
+                                    await _appProvider.deleteMediaData(id);
+                                  });
+                                  await _appProvider.fetchMedia();
+                                },
+                                child: Text("Hapus"),
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  heroTag: "deleteMedia",
+                  child: Icon(FontAwesomeIcons.trash),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _selectionMode,
               child: FloatingActionButton(
                 heroTag: "addSchedule",
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddScheduleScreen(
                             mediaIds: _selectedId,
                           ),
                     ),
-                  );
+                  ).then((_) {
+                    _selectedId.clear();
+                  });
                 },
                 child: Text("${_selectedId.length}"),
               ),
@@ -102,8 +142,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
           ],
         ),
         body: Container(
-          color: Colors.grey,
-          margin: EdgeInsets.only(top: 20.0),
+          margin: EdgeInsets.only(top: 0.0),
           child: GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
