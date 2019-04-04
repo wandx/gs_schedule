@@ -114,12 +114,24 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
               ),
               InkWell(
                 onTap: () async {
+                  final format = [
+                    yyyy,
+                    "-",
+                    mm,
+                    "-",
+                    dd,
+                    " ",
+                    HH,
+                    ":",
+                    nn,
+                    ":00"
+                  ];
                   final body = {
-                    "date": formatDate(_date,
-                        [yyyy, "-", mm, "-", dd, " ", HH, ":", nn, ":00"]),
+                    "date": formatDate(_date, format),
                     "accounts": _selectedAccount,
                     "media": widget.mediaIds
                   };
+
                   final data = await _appProvider.storePostSchedule(body);
 
                   List<dynamic> mediaIds = (data["schedule_data"]["items"])
@@ -141,10 +153,15 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                     decrypted.add(readyToDecrypt.join(","));
                   }
 
-                  await makeSchedule(data["request_code"],
-                      decrypted.join("---"), mediaIds.join("---"), _date);
+                  final requestCode = data["request_code"];
+                  final decryptedAccount = decrypted.join("---");
+                  final mediaList = mediaIds.join("---");
 
-                  Navigator.pop(context);
+                  await makeSchedule(
+                          requestCode, decryptedAccount, mediaList, _date)
+                      .then((_) {
+                    Navigator.pop(context);
+                  });
                 },
                 child: Container(
                   color: Colors.grey,

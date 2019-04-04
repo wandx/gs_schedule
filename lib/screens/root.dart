@@ -41,9 +41,6 @@ class SetHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appProvider =
-        ScopedModel.of<AppProvider>(context, rebuildOnChange: true);
-
     switch (screen) {
       case ActiveScreen.ACCOUNT:
         return AccountScreen();

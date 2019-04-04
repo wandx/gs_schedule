@@ -16,17 +16,11 @@ class Entry extends StatelessWidget {
     return FutureBuilder(
       future: _appProvider.fetchLoginStatus(),
       builder: (context, AsyncSnapshot<bool> s) {
-        if (s.connectionState == ConnectionState.done && !s.hasError) {
-          _appProvider.fetchLoginStatus().then((bool res) async {
-            await _appProvider.fetchMedia();
-          }).then((_) async {
-            await _appProvider.fetchAccount();
-          }).then((_) {
-            runApp(ScopedModel<AppProvider>(
-              model: _appProvider,
-              child: Root(),
-            ));
-          });
+        if (s.connectionState == ConnectionState.done) {
+          return ScopedModel<AppProvider>(
+            model: _appProvider,
+            child: Root(),
+          );
         }
 
         return Landing();

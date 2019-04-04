@@ -102,48 +102,58 @@ class _GalleryScreenState extends State<GalleryScreen> {
           ],
         ),
         body: Container(
-            color: Colors.black,
-            margin: EdgeInsets.only(top: 20.0),
-            child: GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              children: _appProvider.media
-                  .map(
-                    (Media m) => CustomGridTile(
-                          path: m.path,
-                          caption: m.caption,
-                          selected: _selectedId.contains(m.id),
-                          onTap: () {
-                            if (_selectionMode) {
-                              if (_selectedId.contains(m.id)) {
-                                setState(() => _selectedId
-                                    .removeWhere((id) => id == m.id));
-
-                                if (_selectedId.length == 0) {
-                                  setState(() => _selectionMode = false);
-                                }
-                              } else {
-                                setState(() => _selectedId.add(m.id));
-                              }
-                            } else {
-                              print("vied detail");
-                            }
-                          },
-                          onLongPress: () {
-                            setState(() => _selectionMode = !_selectionMode);
-                            if (!_selectionMode) {
-                              setState(() => _selectedId.clear());
-                            } else {
-                              if (_selectedId.length == 0) {
-                                setState(() => _selectedId.add(m.id));
-                              }
-                            }
-                          },
-                        ),
-                  )
-                  .toList(),
-            )),
+          color: Colors.grey,
+          margin: EdgeInsets.only(top: 20.0),
+          child: GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            children: _appProvider.media
+                .map<Widget>((Media m) => _gridSingle(m))
+                .toList(),
+          ),
+        ),
       ),
     );
+  }
+
+  Widget _gridSingle(Media m) {
+    return CustomGridTile(
+      path: m.path,
+      caption: m.caption,
+      selected: _selectedId.contains(m.id),
+      onTap: () {
+        _gridTap(m);
+      },
+      onLongPress: () {
+        _gridLongPress(m);
+      },
+    );
+  }
+
+  void _gridTap(Media m) {
+    if (_selectionMode) {
+      if (_selectedId.contains(m.id)) {
+        setState(() => _selectedId.removeWhere((id) => id == m.id));
+
+        if (_selectedId.length == 0) {
+          setState(() => _selectionMode = false);
+        }
+      } else {
+        setState(() => _selectedId.add(m.id));
+      }
+    } else {
+      print("vied detail");
+    }
+  }
+
+  void _gridLongPress(Media m) {
+    setState(() => _selectionMode = !_selectionMode);
+    if (!_selectionMode) {
+      setState(() => _selectedId.clear());
+    } else {
+      if (_selectedId.length == 0) {
+        setState(() => _selectedId.add(m.id));
+      }
+    }
   }
 }

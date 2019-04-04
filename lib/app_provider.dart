@@ -3,10 +3,8 @@ import 'package:gs_schedule/models/account.dart';
 import 'package:gs_schedule/models/credential.dart';
 import 'package:gs_schedule/models/media.dart';
 import 'package:gs_schedule/models/user.dart';
-import 'package:gs_schedule/repositories/media_repo.dart'
-    show storeMedia, getMedia, storeSchedule;
-import 'package:gs_schedule/repositories/user_repo.dart'
-    show me, login, logout, getAccount, storeAccount, removeAccount;
+import 'package:gs_schedule/repositories/media_repo.dart';
+import 'package:gs_schedule/repositories/user_repo.dart';
 import 'package:gs_schedule/utils/prefs.dart' show tokenExists;
 import 'package:scoped_model/scoped_model.dart';
 
@@ -73,8 +71,10 @@ class AppProvider extends Model {
     }
 
     // check existing token in shared preferences, hit endpoint to validate user, if not validated return false, if valid set true and set user
-    return await me().then((User u) {
+    return await me().then((User u) async {
       if (u is User) {
+        await fetchMedia();
+        await fetchAccount();
         _user = u;
         _loggedIn = true;
         return true;
@@ -94,27 +94,29 @@ class AppProvider extends Model {
   }
 
   Future<Null> fetchMedia() async {
-    _media.clear();
     await getMedia().then((data) {
+      _media.clear();
       _media.addAll(data);
-      print(_media.length);
+      notifyListeners();
     }).catchError((error) {
       print(error);
       _media.clear();
+      notifyListeners();
     });
-    notifyListeners();
   }
 
   Future<Null> fetchAccount() async {
     _accounts.clear();
+    notifyListeners();
+
     await getAccount().then((a) {
       _accounts.addAll(a);
+      notifyListeners();
     }).catchError((error) {
       print(error);
       _accounts.clear();
+      notifyListeners();
     });
-
-    notifyListeners();
   }
 
   Future<Null> storeInstagramAccount(Map<String, dynamic> body) async {
