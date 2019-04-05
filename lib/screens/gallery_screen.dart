@@ -70,7 +70,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                   _selectedId.forEach((String id) async {
                                     await _appProvider.deleteMediaData(id);
                                   });
-                                  await _appProvider.fetchMedia();
+
+                                  setState(() {
+                                    _selectedId.clear();
+                                    _selectionMode = false;
+                                  });
+
+                                  Navigator.pop(context);
                                 },
                                 child: Text("Hapus"),
                               )
@@ -106,8 +112,11 @@ class _GalleryScreenState extends State<GalleryScreen> {
               visible: !_selectionMode,
               child: FloatingActionButton(
                 heroTag: "addGallery",
-                onPressed: () {
-                  Navigator.pushNamed(context, "add_gallery");
+                onPressed: () async {
+                  await Navigator.pushNamed(context, "add_gallery")
+                      .then((_) async {
+                    await _appProvider.fetchMedia();
+                  });
                 },
                 child: Icon(FontAwesomeIcons.plus),
               ),

@@ -96,6 +96,7 @@ class AppProvider extends Model {
   }
 
   Future<Null> fetchMedia() async {
+    setGlobalLoading = true;
     await getMedia().then((data) {
       _media.clear();
       _media.addAll(data);
@@ -105,6 +106,7 @@ class AppProvider extends Model {
       _media.clear();
       notifyListeners();
     });
+    setGlobalLoading = false;
   }
 
   Future<Null> fetchAccount() async {
@@ -140,16 +142,21 @@ class AppProvider extends Model {
   }
 
   Future<Null> deleteMediaData(String id) async {
-    await deleteMedia(id).then((String path) {
+    setGlobalLoading = true;
+    await deleteMedia(id).then((String path) async {
       final cek = File(path).existsSync();
 
       if (cek) {
         try {
-          File(path).deleteSync();
+          await File(path).delete();
+          await fetchMedia();
         } catch (error) {
           print(error);
         }
       }
+    }).then((_) {
+      setGlobalLoading = false;
+      notifyListeners();
     }).catchError((error) => print(error));
   }
 

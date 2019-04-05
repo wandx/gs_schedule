@@ -107,13 +107,8 @@ class _AddGalleryState extends State<AddGallery> {
                 };
 
                 await _appProvider.storeImage(body).then((_) async {
-                  await _appProvider.fetchMedia();
-                }).then((_) {
                   Navigator.pop(context);
                 });
-
-                print("Path: $_path");
-                print("Caption: $_caption");
               },
               child: Container(
                 color: Colors.grey,
