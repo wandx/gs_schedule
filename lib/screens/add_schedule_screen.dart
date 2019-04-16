@@ -135,7 +135,9 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                   await _appProvider.storePostSchedule(body).then((data) async {
                     List<dynamic> mediaIds = (data["schedule_data"]["items"])
                         .map((d) =>
-                            d["media"]["path"] + "," + d["media"]["caption"])
+                            d["media"]["path"] +
+                            "###-###" +
+                            d["media"]["caption"])
                         .toList();
                     List<dynamic> accountIds = (data["schedule_data"]
                             ["accounts"])

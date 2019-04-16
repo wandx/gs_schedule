@@ -55,7 +55,7 @@ public class ScheduleReceiver extends BroadcastReceiver {
                     ig.loginIG(singleAccount[0],singleAccount[1]);
 
                     for(int j=0;j<pathList.length;j++){
-                        String singlePath[] = pathList[j].split(",");
+                        String singlePath[] = pathList[j].split("###-###");
                         ig.postPhoto(singlePath[0],singlePath[1]);
                         Thread.sleep(2000);
                     }
