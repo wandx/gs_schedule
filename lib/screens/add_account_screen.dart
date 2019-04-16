@@ -5,6 +5,7 @@ import 'package:gs_schedule/widgets/forms.dart';
 import 'package:gs_schedule/widgets/misc.dart';
 import 'package:gs_schedule/widgets/scaffold_wrapper.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:gs_schedule/utils/instagram.dart' as instagram;
 
 class AddAccountScreen extends StatefulWidget {
   @override
@@ -80,6 +81,13 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
 
                   if (_password.isEmpty) {
                     ShowToast(text: "Password diperlukan");
+                    return;
+                  }
+
+                  bool validInstagram = await instagram.checkLogin(
+                      username: _username, password: _password);
+                  if (!validInstagram) {
+                    ShowToast(text: "Gagal validasi akun instagram.");
                     return;
                   }
 

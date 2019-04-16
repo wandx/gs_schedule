@@ -37,10 +37,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
         appBar: AppBar(
           title: Text("GRAMSHOOT"),
           backgroundColor: Colors.black,
-          leading: Image(
-            image: AssetImage("assets/img/icon.png"),
-            width: 10.0,
-          ),
         ),
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,

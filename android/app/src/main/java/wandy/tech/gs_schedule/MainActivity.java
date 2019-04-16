@@ -71,6 +71,14 @@ public class MainActivity extends FlutterActivity {
 
         makeSchedule(requestCode,dateObj,accountList,mediaList);
       }
+
+      if(methodCall.method.equals("check-login")){
+        String username = (String) arguments.get("username");
+        String password = (String) arguments.get("password");
+
+        InstagramBot ig = new InstagramBot();
+        result.success(ig.checkLogin(username,password));
+      }
     });
   }
 

@@ -25,6 +25,15 @@ public class InstagramBot {
         this.ig.login();
     }
 
+    public boolean checkLogin(String username, String password){
+        try{
+            loginIG(username, password);
+            return this.ig.isLoggedIn();
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     public void postPhoto(String path, String caption) {
         Log.d(TAG, "Post Photo");
         File file = new File(path);

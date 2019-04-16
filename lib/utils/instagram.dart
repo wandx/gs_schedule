@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 final platform = const MethodChannel('tech.wandy.gs_schedule/instagram-bot');
 
@@ -14,4 +15,10 @@ Future<Null> makeSchedule(
     "hour": d.hour,
     "min": d.minute,
   });
+}
+
+Future<bool> checkLogin(
+    {@required String username, @required String password}) async {
+  return await platform.invokeMethod(
+      "check-login", {"username": username, "password": password});
 }
