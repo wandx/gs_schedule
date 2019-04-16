@@ -21,14 +21,14 @@ public class ScheduleReceiver extends BroadcastReceiver {
         int requestCode = intent.getIntExtra("requestCode", 0);
         String accountList = intent.getStringExtra("accountList");
         String mediaList = intent.getStringExtra("mediaList");
-        try{
-            uploadInstagram(accountList,mediaList);
-        }catch (Exception e){
-            Log.d("error_upload",e.getMessage());
+        try {
+            uploadInstagram(accountList, mediaList);
+        } catch (Exception e) {
+            Log.d("error_upload", e.getMessage());
         }
 
-        Log.d("sc_result",accountList);
-        Log.d("sc_result",mediaList);
+        Log.d("sc_result", accountList);
+        Log.d("sc_result", mediaList);
         Notification notif = new NotificationCompat
                 .Builder(context, "Scheduler")
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -43,23 +43,30 @@ public class ScheduleReceiver extends BroadcastReceiver {
         am.notify(id, notif);
     }
 
-    private void uploadInstagram(String accounts,String paths) {
+    private void uploadInstagram(String accounts, String paths) {
         new Thread(() -> {
             String accountList[] = accounts.split("---");
             String pathList[] = paths.split("---");
 
-            for(int i=0;i<accountList.length;i++){
+            for (int i = 0; i < accountList.length; i++) {
                 String singleAccount[] = accountList[i].split(",");
                 InstagramBot ig = new InstagramBot();
-                try{
-                    ig.loginIG(singleAccount[0],singleAccount[1]);
+                try {
+                    ig.loginIG(singleAccount[0], singleAccount[1]);
 
-                    for(int j=0;j<pathList.length;j++){
-                        String singlePath[] = pathList[j].split("###-###");
-                        ig.postPhoto(singlePath[0],singlePath[1]);
-                        Thread.sleep(2000);
+                    for (int j = 0; j < pathList.length; j++) {
+                        try {
+                            String singlePath[] = pathList[j].split("###-###");
+                            ig.postPhoto(singlePath[0], singlePath[1]);
+                            Thread.sleep(2000);
+                        } catch (Exception e) {
+                            String singlePath[] = pathList[j].split(",");
+                            ig.postPhoto(singlePath[0], singlePath[1]);
+                            Thread.sleep(2000);
+                        }
+
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
