@@ -19,10 +19,10 @@ public class InstagramBot {
     private static final String TAG = "instagramBot";
 
     public void loginIG(String username, String password) throws Exception {
-        Log.d(TAG, "Login IG as " + username);
         this.ig = Instagram4Android.builder().username(username).password(password).build();
         this.ig.setup();
         this.ig.login();
+        Log.d(TAG, "Login IG as " + this.ig.getUsername());
     }
 
     public boolean checkLogin(String username, String password){

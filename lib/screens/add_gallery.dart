@@ -62,6 +62,8 @@ class _AddGalleryState extends State<AddGallery> {
                         await pickImage(
                           ImageSource.gallery,
                           withCropper: true,
+                          maxHeight: 2048,
+                          maxWidth: 2048,
                         ).then((File f) async {
                           setState(() {
                             _imgFile = f;

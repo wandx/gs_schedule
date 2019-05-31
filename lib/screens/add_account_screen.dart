@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gs_schedule/app_provider.dart';
 import 'package:gs_schedule/models/account.dart';
+import 'package:gs_schedule/utils/instagram.dart' as instagram;
 import 'package:gs_schedule/widgets/forms.dart';
 import 'package:gs_schedule/widgets/misc.dart';
 import 'package:gs_schedule/widgets/scaffold_wrapper.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:gs_schedule/utils/instagram.dart' as instagram;
 
 class AddAccountScreen extends StatefulWidget {
   @override
@@ -93,7 +93,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
 
                   await _appProvider.storeInstagramAccount({
                     "username": _username,
-                    "password": _passwordEnc,
+                    "password": _password,
                     "description": _description,
                   }).then((_) async {
                     await _appProvider.fetchAccount();

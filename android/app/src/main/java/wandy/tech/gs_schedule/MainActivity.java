@@ -24,8 +24,12 @@ public class MainActivity extends FlutterActivity {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        if (android.os.Build.VERSION.SDK_INT > 21)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler((methodCall, result) -> {
             final Map<String, Object> arguments = methodCall.arguments();

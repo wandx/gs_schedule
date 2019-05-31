@@ -143,24 +143,31 @@ class _AddScheduleScreenState extends State<AddScheduleScreen> {
                             ["accounts"])
                         .map((d) => d["username"] + "," + d["password"])
                         .toList();
-                    List<String> decrypted = [];
-
-                    String toDecrypt = accountIds.join("|");
-                    List<String> listToDecrypt = toDecrypt.split("|");
-
-                    for (int i = 0; i < listToDecrypt.length; i++) {
-                      List<String> readyToDecrypt = listToDecrypt[i].split(",");
-                      final x = new Account();
-                      readyToDecrypt[1] = await x.decrypt(readyToDecrypt[1]);
-                      decrypted.add(readyToDecrypt.join(","));
-                    }
+//                    List<String> decrypted = [];
+//
+//                    String toDecrypt = accountIds.join("|");
+//                    List<String> listToDecrypt = toDecrypt.split("|");
+//
+//                    for (int i = 0; i < listToDecrypt.length; i++) {
+//                      List<String> readyToDecrypt = listToDecrypt[i].split(",");
+//                      final x = new Account();
+//                      readyToDecrypt[1] = await x.decrypt(readyToDecrypt[1]);
+//                      decrypted.add(readyToDecrypt.join(","));
+//                    }
 
                     final requestCode = data["request_code"];
-                    final decryptedAccount = decrypted.join("---");
+//                    final decryptedAccount = decrypted.join("---");
+//                    print("decrypted $decryptedAccount");
+                    final undecrypted = accountIds.join("---");
+                    print("undecrypted $undecrypted");
                     final mediaList = mediaIds.join("---");
 
                     makeSchedule(
-                        requestCode, decryptedAccount, mediaList, _date);
+                      requestCode,
+                      undecrypted,
+                      mediaList,
+                      _date,
+                    );
                   });
 
                   Navigator.pop(context);
