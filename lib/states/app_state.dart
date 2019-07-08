@@ -5,7 +5,7 @@ import 'package:gs_schedule/models/media.dart';
 import 'package:gs_schedule/models/user.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:gs_schedule/constants/global_constant.dart';
-import 'package:gs_schedule/repositories/user_repo.dart' as repo;
+import 'package:gs_schedule/repositories/user_repository.dart' as repo;
 
 class AppState extends Model {
   final model = AppModel.init();
@@ -18,7 +18,7 @@ class AppState extends Model {
     model.isLoading = true;
     notifyListeners();
 
-    final _result = await repo.login(credential);
+    final _result = await repo.login(credential: credential);
     if(_result){
       model.isLoggedIn = true;
       await me();

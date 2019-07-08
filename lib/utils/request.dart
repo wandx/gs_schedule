@@ -40,6 +40,7 @@ Future<Response> request({
       break;
   }
 
+  print(_response.body);
   return _response;
 }
 
@@ -51,7 +52,7 @@ Future<Response> authRequest({
   final _client = Client();
   final _url = _setUrl(path);
   final _body = jsonEncode(body);
-  final _token = getToken();
+  final _token = await getToken();
   Response _response;
 
   if (_token == null) {
@@ -79,6 +80,7 @@ Future<Response> authRequest({
       break;
   }
 
+  print(_response.body);
   return _response;
 }
 
