@@ -7,6 +7,7 @@ import 'package:gs_schedule/utils/prefs.dart' show persistToken, removeToken;
 import 'package:gs_schedule/utils/request.dart'
     show RequestType, makeAuthRequest, makeRequest;
 import 'package:http/http.dart' show Response;
+import 'package:gs_schedule/constants/global_constant.dart';
 
 Future<Null> login(Credential credential) async {
   return await makeRequest(

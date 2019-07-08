@@ -6,7 +6,14 @@ class Credential {
 
   Credential({@required this.username, @required this.password});
 
-  toJson() {
+  Map<String,dynamic> toJson() {
+    return {
+      "username": this.username,
+      "password": this.password,
+    };
+  }
+
+  Map<String,dynamic> toMap() {
     return {
       "username": this.username,
       "password": this.password,

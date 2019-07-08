@@ -4,6 +4,7 @@ import 'package:gs_schedule/models/media.dart';
 import 'package:gs_schedule/utils/request.dart'
     show RequestType, makeAuthRequest, makeRequest;
 import 'package:http/http.dart' show Response;
+import 'package:gs_schedule/constants/global_constant.dart';
 
 Future<List<Media>> getMedia() async {
   return await makeAuthRequest(RequestType.GET, "/media")
