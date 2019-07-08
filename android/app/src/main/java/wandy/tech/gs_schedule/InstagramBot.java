@@ -1,22 +1,19 @@
 package wandy.tech.gs_schedule;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import dev.niekirk.com.instagram4android.Instagram4Android;
 import dev.niekirk.com.instagram4android.requests.InstagramUploadPhotoRequest;
 import dev.niekirk.com.instagram4android.requests.InstagramUploadVideoRequest;
 
-import static android.content.Context.ALARM_SERVICE;
-
 public class InstagramBot {
     private Instagram4Android ig;
     private static final String TAG = "instagramBot";
+    private final static ExecutorService ex = Executors.newSingleThreadExecutor();
 
     public void loginIG(String username, String password) throws Exception {
         this.ig = Instagram4Android.builder().username(username).password(password).build();
@@ -40,15 +37,13 @@ public class InstagramBot {
 
         Instagram4Android ig = this.ig;
 
-        new Thread(() -> {
+        ex.submit(() -> {
             try {
                 ig.sendRequest(new InstagramUploadPhotoRequest(file, caption));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-        }).start();
-
+        });
     }
 
     public void postVideo(String path, String caption) {
