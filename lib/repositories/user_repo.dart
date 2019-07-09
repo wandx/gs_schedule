@@ -5,7 +5,7 @@ import 'package:gs_schedule/models/credential.dart';
 import 'package:gs_schedule/models/user.dart';
 import 'package:gs_schedule/utils/prefs.dart' show persistToken, removeToken;
 import 'package:gs_schedule/utils/request.dart'
-    show RequestType, makeAuthRequest, makeRequest;
+    show makeAuthRequest, makeRequest;
 import 'package:http/http.dart' show Response;
 import 'package:gs_schedule/constants/global_constant.dart';
 

@@ -1,10 +1,15 @@
 class Media {
-  final String id;
-  final String path;
-  final String mediaType;
-  final String caption;
+  int id;
+  String path;
+  String mediaType;
+  String caption;
 
-  Media({this.id, this.path, this.mediaType, this.caption});
+  Media({
+    this.id,
+    this.path,
+    this.mediaType,
+    this.caption,
+  });
 
   factory Media.fromJson(Map<String, dynamic> json) {
     return Media(
@@ -13,5 +18,19 @@ class Media {
       mediaType: json["media_type"],
       caption: json["caption"],
     );
+  }
+
+  toMap() {
+    var map = <String, dynamic>{
+      "path": path,
+      "caption": caption,
+      "media_type": mediaType,
+    };
+
+    if (id != null) {
+      map["id"] = id;
+    }
+
+    return map;
   }
 }

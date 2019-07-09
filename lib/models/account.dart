@@ -1,5 +1,5 @@
 import 'package:flutter_string_encryption/flutter_string_encryption.dart';
-import 'package:gs_schedule/utils/prefs.dart' show persistKey, getKey;
+import 'package:gs_schedule/utils/prefs.dart' show getKey;
 
 class Account {
   final String id;
