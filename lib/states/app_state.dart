@@ -6,9 +6,11 @@ import 'package:gs_schedule/models/user.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:gs_schedule/constants/global_constant.dart';
 import 'package:gs_schedule/repositories/user_repository.dart' as repo;
+import 'package:gs_schedule/providers/database/media_provider.dart' as mp;
 
 class AppState extends Model {
   final model = AppModel.init();
+  final mediaModel = MediaModel.init();
 
   Future<void> init() async{
     await me();
@@ -46,7 +48,23 @@ class AppState extends Model {
     notifyListeners();
   }
 
+  Future<bool> insertMedia({@required Media media}) async{
+    final act = mp.MediaProvider();
+    final res = act.insertMedia(media: media);
+    return res is int;
+  }
+
   static AppState of(BuildContext context) => ScopedModel.of<AppState>(context);
+}
+
+class MediaModel{
+  List<Media> media;
+
+  MediaModel({this.media});
+
+  factory MediaModel.init(){
+    return MediaModel(media: []);
+  }
 }
 
 class AppModel {

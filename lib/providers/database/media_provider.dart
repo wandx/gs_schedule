@@ -30,8 +30,60 @@ class MediaProvider {
     );
   }
 
-  Future<Media> insert(Media media) async {
+  Future<List<Media>> getAllMedia() async {
+    List<Map> maps = await _db.query(
+      table,
+      columns: [
+        idColumn,
+        pathColumn,
+        captionColumn,
+        mediaType,
+      ],
+    );
+
+    if(maps.length > 0){
+      return maps.map<Media>((m) => Media.fromJson(m)).toList();
+    }
+
+    return [];
+  }
+
+  Future<Media> insertMedia({@required Media media}) async {
     media.id = await _db.insert(table, media.toMap());
     return media;
+  }
+
+  Future<Media> getMedia({@required int id}) async {
+    List<Map> maps = await _db.query(
+      table,
+      columns: [idColumn, pathColumn, captionColumn, mediaType,],
+      where: "$idColumn = ?",
+      whereArgs: [id],
+    );
+
+    if (maps.length > 0) {
+      return Media.fromJson(maps.first);
+    }
+
+    return null;
+  }
+
+  Future<int> deleteMedia({@required int id}) async {
+    return await _db.delete(
+      table,
+      where: "$idColumn = ?",
+      whereArgs: [id],
+    );
+  }
+
+  Future<Media> updateMedia({@required Media media}) async {
+    int id = await _db.update(
+      table,
+      media.toMap(),
+      where: "$idColumn = ?",
+      whereArgs: [media.id],
+    );
+
+    return await getMedia(id: id);
   }
 }
